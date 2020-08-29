@@ -6,14 +6,14 @@ Pyranda -  https://github.com/LLNL/pyranda/tree/master
 Work Title - "Shock Capturing using Neural Networks"
 
 ## Includes:
-• .py files to create datasets
-• .py files to implement TensorFlow Keras neural networks
-• .py files that incorporate neural networks into shock dominated problems
+• .py files to create datasets<br />
+• .py files to implement TensorFlow Keras neural networks<br />
+• .py files that incorporate neural networks into shock dominated problems<br />
 
 ## Shock-Dominated Problems:
-• Burgers' Equation
-• 1D Sod Shock Tube
-• Shu-Osher Problem
-• 2D Sod Shock Tube
-• Sedov Blast Wave
+• Burgers' Equation<br />
+• 1D Sod Shock Tube<br />
+• Shu-Osher Problem<br />
+• 2D Sod Shock Tube<br />
+• Sedov Blast Wave<br />
 • Triple Point Problem
