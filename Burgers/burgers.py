@@ -36,7 +36,7 @@ if BASE:
     title = "burger_base"
 elif RESOLVED:
     title = "burger_res"
-elif Test:
+elif TEST:
     title = "burger_%s"%Model
 xdom = "xdom = (0.0,1.0,%i,periodic=True)"%Npts
 pysim = pyrandaSim(title,xdom)
