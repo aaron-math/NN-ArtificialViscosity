@@ -154,17 +154,17 @@ if TRAIN:
     ML_data_trim = ML_data[:,:ml_cnt] #Trim training data, removing extra zero columns
     np.savetxt("Data/N%i_data.txt"%N,ML_data_trim.T,fmt="%.4e",newline="\n",delimiter=" ") #Save training data
 if BASE:
-    np.save("Data/sod_base_density.npy",rho_data) #Save base density data
-    np.save("Data/sod_base_av.npy",beta_data) #Save base beta data
+    np.save("Data/1D_sod_base_density.npy",rho_data) #Save base density data
+    np.save("Data/1D_sod_base_av.npy",beta_data) #Save base beta data
 elif RESOLVED:
     x = np.linspace(pysim.meshOptions['x1'][0],pysim.meshOptions['xn'][0],num=200)
     xp = np.linspace(pysim.meshOptions['x1'][0],pysim.meshOptions['xn'][0],num=pysim.nx)
     fp_rho = rho_data
     interpPoints_rho = np.interp(x,xp,fp_rho)
-    np.save("Data/sod_res_density.npy",interpPoints_rho) #Save resolved density data
+    np.save("Data/1D_sod_res_density.npy",interpPoints_rho) #Save resolved density data
     fp_beta = beta_data
     interpPoints_beta = np.interp(x,xp,fp_beta)
-    np.save("Data/sod_res_av.npy",interpPoints_beta) #Save resolved density data
+    np.save("Data/1D_sod_res_av.npy",interpPoints_beta) #Save resolved density data
 if TEST:
-    np.save("Data/sod_active_density_N%i.npy"%N,rho_data) #Save NN model density data
-    np.save("Data/sod_active_av_N%i.npy"%N,beta_data) #Save NN model beta data
+    np.save("Data/1D_sod_active_density_N%i.npy"%N,rho_data) #Save NN model density data
+    np.save("Data/1D_sod_active_av_N%i.npy"%N,beta_data) #Save NN model beta data

@@ -13,9 +13,9 @@ N = args.N
 WRITE = args.write
 SAVE = args.save
 
-HighRes = np.load('Data/sod_res_density.npy') #Already interpolated, 200 Points
-ml_data = np.load('sod_active_density_N%i.npy'%N) #NN model data
-base_data = np.load('sod_base_density.npy') #Base model data
+HighRes = np.load('Data/1D_sod_res_density.npy') #Already interpolated, 200 Points
+ml_data = np.load('Data/1D_sod_active_density_N%i.npy'%N) #NN model data
+base_data = np.load('Data/1D_sod_base_density.npy') #Base model data
 
 NumVals = len(HighRes)
 
@@ -31,13 +31,13 @@ if not os.path.exists('Results'):
     os.makedirs('Results')
 
 if SAVE:
-    plt.savefig("Results/sod_density.png",dpi=600,bbox_inches='tight',transparent=True)
+    plt.savefig("Results/1D_sod_density.png",dpi=600,bbox_inches='tight',transparent=True)
 else:
     plt.show()
 plt.clf()
 
-ml_data_av = np.load("Data/sod_active_av_N%i.npy"%N)
-base_data_av = np.load("Data/sod_base_av.npy")
+ml_data_av = np.load("Data/1D_sod_active_av_N%i.npy"%N)
+base_data_av = np.load("Data/1D_sod_base_av.npy")
 
 dom = np.linspace(0,6,200)
 plt.plot(dom,ml_data_av,linewidth=2,label="NN-AV")
@@ -47,7 +47,7 @@ plt.xlabel(r"$x$")
 plt.ylabel("Artificial Viscosity")
 
 if SAVE:
-    plt.savefig("Results/sod_av.png",dpi=600,bbox_inches='tight',transparent=True)
+    plt.savefig("Results/1D_sod_av.png",dpi=600,bbox_inches='tight',transparent=True)
 else:
     plt.show()
 plt.clf()
@@ -81,7 +81,7 @@ plt.xticks(dom,ticks)
 plt.title("1D Sod Shock Tube Relative Error")plt.legend()
 plt.ylabel('Relative Error')
 if SAVE:
-    plt.savefig("Results/sod_error.png",dpi=600,bbox_inches='tight',transparent=True)
+    plt.savefig("Results/1D_sod_error.png",dpi=600,bbox_inches='tight',transparent=True)
 else:
     plt.show()
 plt.clf()
@@ -92,7 +92,7 @@ print('L2\t',"{:e}".format(L2[0]),'\t',"{:e}".format(L2[1]))
 print('L_inf\t',"{:e}".format(L_inf[0]),'\t',"{:e}".format(L_inf[1]))
 
 if WRITE:
-    with open('Results/sod_error.txt','w') as outfile:
+    with open('Results/1D_sod_error.txt','w') as outfile:
         outfile.write('\t Base \t\t NN-AV\n')
         outfile.write('L1\t'+"{:e}".format(L1[0])+'\t'+"{:e}".format(L1[1])+'\n')
         outfile.write('L2\t'+"{:e}".format(L2[0])+'\t'+"{:e}".format(L2[1])+'\n')
