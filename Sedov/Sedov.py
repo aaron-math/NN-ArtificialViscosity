@@ -56,8 +56,6 @@ E0 = 0.8510718547582291/rho0
 zeta0 = 1.032777467761425
 alpha = E0
 
-N = 3
-
 
 Lp = L * (Npts-1.0) / Npts
 mesh_options = {}
