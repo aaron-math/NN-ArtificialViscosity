@@ -22,9 +22,8 @@ NumVals = len(HighRes)
 dom = np.linspace(0,6,200)
 plt.plot(dom,HighRes,linewidth=3,label="Resolved Solution")
 plt.plot(dom,ml_data,'--',linewidth=2,label="NN-AV")
-plt.plot(dom,short,'--',linewidth=2,label="OP-AV")
+plt.plot(dom,base_data,'--',linewidth=2,label="OP-AV")
 plt.legend()
-plt.title(r"1D Sod Shock Tube at $t=1.5$")
 plt.xlabel(r"$x$")
 plt.ylabel("Density")
 
@@ -88,9 +87,9 @@ else:
 plt.clf()
 
 print('\t Base \t\t NN-AV \t\t RK4')
-print('L1\t',"{:e}".format(L1[0]),'\t',"{:e}".format(L1[1]),'\t',"{:e}".format(L1[2]))
-print('L2\t',"{:e}".format(L2[0]),'\t',"{:e}".format(L2[1]),'\t',"{:e}".format(L2[2]))
-print('L_inf\t',"{:e}".format(L_inf[0]),'\t',"{:e}".format(L_inf[1]),'\t',"{:e}".format(L_inf[2]))
+print('L1\t',"{:e}".format(L1[0]),'\t',"{:e}".format(L1[1]))
+print('L2\t',"{:e}".format(L2[0]),'\t',"{:e}".format(L2[1]))
+print('L_inf\t',"{:e}".format(L_inf[0]),'\t',"{:e}".format(L_inf[1]))
 
 if WRITE:
     with open('Results/sod_error.txt','w') as outfile:
