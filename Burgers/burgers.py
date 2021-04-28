@@ -110,8 +110,12 @@ while time < 0.3:
 
 u_data = pysim.var('u').data
 u_data = u_data.flatten()
-nu_data = pysim.var('nu').data
-nu_data = u_data.flatten()
+if TEST:
+    nu_data = pysim.var('ml_nu').data
+    nu_data = nu_data.flatten()
+else:
+    nu_data = pysim.var('nu').data
+    nu_data = nu_data.flatten()
 
 if not os.path.exists('Data'):
     os.makedirs('Data')
