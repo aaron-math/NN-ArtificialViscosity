@@ -28,7 +28,7 @@ Model = args.model
 if TEST and Model == None: #Must load model if testing neural network
     raise RuntimeError("Must include model name")
 
-if RESOLVED: #Use 50x points in resolved simulation
+if RESOLVED:
     nx = 350 * 4                             # Points in x
     ny = 150 * 4                             # Points in y
 else:
