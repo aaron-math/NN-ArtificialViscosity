@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy import linalg as la
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--N', help='Number of points before/after in domain', default=3, type=int)
@@ -27,8 +28,12 @@ plt.legend()
 plt.title(r"Burgers' Equation at $t=0.3$")
 plt.xlabel(r"$x$")
 plt.ylabel("Velocity")
+
+if not os.path.exists('Results'):
+    os.makedirs('Results')
+
 if SAVE:
-    plt.savefig("/Users/aaronlarsen/Desktop/LLNL/Final_Presentations/Data/Compare_Burger_adjust.png",dpi=600,bbox_inches='tight',transparent=True)
+    plt.savefig("Results/Compare_Burger_adjust.png",dpi=600,bbox_inches='tight',transparent=True)
 else:
     plt.show()
 plt.clf()
@@ -62,7 +67,7 @@ plt.title("Burgers' Equation Relative Error")
 plt.legend()
 plt.ylabel('Relative Error')
 if SAVE:
-    plt.savefig("Data/burger_error.png",dpi=600,bbox_inches='tight',transparent=True)
+    plt.savefig("Results/burger_error.png",dpi=600,bbox_inches='tight',transparent=True)
 else:
     plt.show()
 plt.clf()
@@ -73,7 +78,7 @@ print('L2\t',"{:e}".format(L2[0]),'\t',"{:e}".format(L2[1]),'\t',"{:e}".format(L
 print('L_inf\t',"{:e}".format(L_inf[0]),'\t',"{:e}".format(L_inf[1]),'\t',"{:e}".format(L_inf[2]))
 
 if WRITE:
-    with open('Data/burger_error.txt','w') as outfile:
+    with open('Results/burger_error.txt','w') as outfile:
         outfile.write('\t Base \t\t NN-AV\n')
         outfile.write('L1\t'+"{:e}".format(L1[0])+'\t'+"{:e}".format(L1[1])+'\n')
         outfile.write('L2\t'+"{:e}".format(L2[0])+'\t'+"{:e}".format(L2[1])+'\n')
