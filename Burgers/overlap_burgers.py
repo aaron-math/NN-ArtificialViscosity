@@ -1,5 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
+import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--N', help='Number of points before/after in domain', default=3, type=int)
