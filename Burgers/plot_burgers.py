@@ -12,11 +12,11 @@ args = parser.parse_args()
 
 N = args.N
 WRITE = args.write
-SAVE = args.SAVE
+SAVE = args.save
 
 HighRes = np.load('Data/burgers_res_velocity.npy') #Already interpolated, 200 Points
-ml_data = np.load('burgers_active_velocity_N%i.npy'%N) #NN model data
-base_data = np.load('burgers_base_velocity.npy') #Base model data
+ml_data = np.load('Data/burgers_active_velocity_N%i.npy'%N) #NN model data
+base_data = np.load('Data/burgers_base_velocity.npy') #Base model data
 
 NumVals = len(HighRes)
 
@@ -24,7 +24,7 @@ dom = np.linspace(0,1,200)
 #plt.xlim([0.5,0.9])
 plt.plot(dom,HighRes,linewidth=3,label="Resolved Solution")
 plt.plot(dom,ml_data,'--',linewidth=2,label="NN-AV")
-plt.plot(dom,short,'--',linewidth=2,label="AV Operator")
+plt.plot(dom,base_data,'--',linewidth=2,label="AV Operator")
 plt.legend()
 plt.title(r"Burgers' Equation at $t=0.3$")
 plt.xlabel(r"$x$")
@@ -73,10 +73,10 @@ else:
     plt.show()
 plt.clf()
 
-print('\t Base \t\t NN-AV \t\t RK4')
-print('L1\t',"{:e}".format(L1[0]),'\t',"{:e}".format(L1[1]),'\t',"{:e}".format(L1[2]))
-print('L2\t',"{:e}".format(L2[0]),'\t',"{:e}".format(L2[1]),'\t',"{:e}".format(L2[2]))
-print('L_inf\t',"{:e}".format(L_inf[0]),'\t',"{:e}".format(L_inf[1]),'\t',"{:e}".format(L_inf[2]))
+print('\t Base \t\t NN-AV')
+print('L1\t',"{:e}".format(L1[0]),'\t',"{:e}".format(L1[1]))
+print('L2\t',"{:e}".format(L2[0]),'\t',"{:e}".format(L2[1]))
+print('L_inf\t',"{:e}".format(L_inf[0]),'\t',"{:e}".format(L_inf[1]))
 
 if WRITE:
     with open('Results/burger_error.txt','w') as outfile:
