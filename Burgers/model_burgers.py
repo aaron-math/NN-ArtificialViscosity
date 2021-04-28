@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('model_name', help='Name of model', type=str)
 parser.add_argument('--N', help='Number of points before/after in domain -- Must be identical to training data', default=3, type=int)
 parser.add_argument('--alpha', help='Optimizer learning rate', default=0.001, type=float)
-parser.add_argument('-p', '--plot' help='Plot training/validation loss', action="store_true")
+parser.add_argument('-p', '--plot', help='Plot training/validation loss', action="store_true")
 args = parser.parse_args()
 
 N = args.N
@@ -63,7 +63,7 @@ model = build_model(OptVal)
 EPOCHS = 100
 history = model.fit(
           normed_train_data, train_labels,
-          epochs=EPOCHS, validation_split = 0.2, verbose=0,
+          epochs=EPOCHS, validation_split = 0.2, verbose=1,
           callbacks=[tfdocs.modeling.EpochDots()])
 hist = pd.DataFrame(history.history)
 loss, mae, mse = model.evaluate(normed_test_data, test_labels, verbose=2)
