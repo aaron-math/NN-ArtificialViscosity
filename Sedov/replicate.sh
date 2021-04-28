@@ -1,4 +1,4 @@
-python 2D_Sod.py
-python 2D_Sod.py --res
-python 2D_Sod.py --test --model ModelTest
-python 2D_Sod.py -w --save
+python Sedov.py
+python Sedov.py --res
+python Sedov.py --test --model ModelTest
+python plot_sedov.py -w --save
