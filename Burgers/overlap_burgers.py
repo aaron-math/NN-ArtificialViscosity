@@ -8,10 +8,10 @@ parser.add_argument('-s','--save', help='Save plots',action='store_true')
 args = parser.parse_args()
 
 N = args.N
-SAVE = args.SAVE
+SAVE = args.save
 
-nuActive = np.load("Data/nuActive_adjust.npy")
-nuBase = np.load("Data/nuBase.npy")
+nuActive = np.load("Data/burgers_active_nu_N3.npy")
+nuBase = np.load("Data/burgers_base_nu.npy")
 velActive = np.load('Data/burgers_active_velocity_N%i.npy'%N)
 velBase = np.load("Data/burgers_base_velocity.npy")
 
@@ -36,6 +36,6 @@ ax2.legend(loc=6)
 
 fig.tight_layout()  # otherwise the right y-label is slightly clipped
 if SAVE:
-    plt.savefig("/Users/aaronlarsen/Desktop/LLNL/Final_Presentations/Data/burger_overlap_adjust.png",dpi=640,bbox_inches='tight',transparent=True)
+    plt.savefig("Results/burger_overlap.png",dpi=640,bbox_inches='tight',transparent=True)
 else:
     plt.show()
