@@ -57,7 +57,7 @@ def getShu(Npts,viz=False):
     imesh = imesh.replace('Npts',str(Npts))
 
     # Initialize a simulation object on a mesh
-    pysim = pyrandaSim('sod',imesh)
+    pysim = pyrandaSim(title,imesh)
     pysim.addPackage( pyrandaBC(pysim) )
     pysim.addPackage( pyrandaTimestep(pysim) )
 
