@@ -1,10 +1,12 @@
 Code developed during Summer 2020 to implement machine learning and neural networks to predict artificial viscosity values in Pyranda.
 
+Work Title - "Shock Capturing using Neural Networks"
+
+The images produced by the code match those from the paper.
+
 ## Reference:
 For installation instructions and source code:<br />
 Pyranda -  https://github.com/LLNL/pyranda/tree/master
-
-Work Title - "Shock Capturing using Neural Networks"
 
 ## Includes:
 • .py files to create datasets<br />
