@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--N', help='Number of points before/after in domain', default=3, type=int)
-parser.add_argument('-s','--save' help='Save plots',action='store_true')
+parser.add_argument('-s','--save', help='Save plots',action='store_true')
 args = parser.parse_args()
 
 N = args.N
