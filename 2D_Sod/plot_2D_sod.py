@@ -135,12 +135,12 @@ HighSumX = np.sum(Xfirst[:,:,0])
 HighSumY = np.sum(Yfirst[:,:,0])
 
 
-L1.append(la.norm((Base[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=1))
-L1.append(la.norm((SYM[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=1))
-L2.append(la.norm((Base[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=2))
-L2.append(la.norm((SYM[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=2))
-L_inf.append(la.norm((Base[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=np.inf))
-L_inf.append(la.norm((SYM[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=np.inf))
+L1.append(la.norm((base_data[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=1))
+L1.append(la.norm((ml_data[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=1))
+L2.append(la.norm((base_data[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=2))
+L2.append(la.norm((ml_data[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=2))
+L_inf.append(la.norm((base_data[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=np.inf))
+L_inf.append(la.norm((ml_data[:,:,0]-Xfirst[:,:,0])/HighSumX,ord=np.inf))
 
 dom = [1,2]
 ticks = ["AV","NN-AV"]
