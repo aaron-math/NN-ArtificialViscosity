@@ -256,14 +256,11 @@ while tt > time:
 
 
 rho_data = ss.var('rho').data
-rho_data = rho_data.flatten()
 
 if TEST:
     beta_data = ss.var('ml_beta').data
-    beta_data = beta_data.flatten()
 else:
     beta_data = ss.var('beta').data
-    beta_data = beta_data.flatten()
 
 if not os.path.exists('Data'):
     os.makedirs('Data')
@@ -272,14 +269,8 @@ if BASE:
     np.save("Data/2D_sod_base_density.npy",rho_data) #Save base density data
     np.save("Data/2D_sod_base_av.npy",beta_data) #Save base beta data
 elif RESOLVED:
-    x = np.linspace(ss.meshOptions['x1'][0],ss.meshOptions['xn'][0],num=200)
-    xp = np.linspace(ss.meshOptions['x1'][0],ss.meshOptions['xn'][0],num=ss.nx)
-    fp_rho = rho_data
-    interpPoints_rho = np.interp(x,xp,fp_rho)
-    np.save("Data/2D_sod_res_density.npy",interpPoints_rho) #Save resolved density data
-    fp_beta = beta_data
-    interpPoints_beta = np.interp(x,xp,fp_beta)
-    np.save("Data/2D_sod_res_av.npy",interpPoints_beta) #Save resolved density data
+    np.save("Data/2D_sod_res_density.npy",rho_data) #Save resolved density data
+    np.save("Data/2D_sod_res_av.npy",beta_data) #Save resolved density data
 if TEST:
     np.save("Data/2D_sod_active_density_N%i.npy"%N,rho_data) #Save NN model density data
     np.save("Data/2D_sod_active_av_N%i.npy"%N,beta_data) #Save NN model beta data
