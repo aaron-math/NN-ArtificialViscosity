@@ -12,11 +12,11 @@ parser.add_argument('--N', help='Number of points before/after in domain', defau
 parser.add_argument('--model', help='Name of model', default=None, type=str)
 args = parser.parse_args()
 
-TRAIN = args.train
-TEST = args.test
-RESOLVED = args.res
-N = args.N
-Model = args.model
+TRAIN = args.train #If training mode
+TEST = args.test #If testing mode
+RESOLVED = args.res #If running a high-res simulation
+N = args.N #2N+1 points
+Model = args.model #Name of model if using
 
 if TEST and Model == None: #Must load model if testing neural network
     raise RuntimeError("Must include model name")
@@ -32,14 +32,15 @@ else:
     BASE = False
 
 """Initialize simulation"""
+#Title of simulation
 if BASE:
     title = "burger_base"
 elif RESOLVED:
     title = "burger_res"
 elif TEST:
     title = "burger_%s"%Model
-xdom = "xdom = (0.0,1.0,%i,periodic=True)"%Npts
-pysim = pyrandaSim(title,xdom)
+xdom = "xdom = (0.0,1.0,%i,periodic=True)"%Npts #Domain of simulation
+pysim = pyrandaSim(title,xdom) #Begin simulation
 pysim.addPackage( pyrandaBC(pysim) ) #Turn on the pyrandaBC package
 
 """Set equations of motion"""
@@ -49,7 +50,7 @@ ddt(:u:) = - :u: * ddx(:u:) + :nu: * ddx(ddx(:u:)) # Viscous Burgers equation
 :div: = ddx( :u: )                                 # Velocity gradient
 :nu: = .1 * gbar( ring( :div: ) )                  # Artificial viscosity model
 """
-pysim.EOM(eom)
+pysim.EOM(eom) #Save eom
 
 """Evaluate the initial conditions and then update variables"""
 ic = """
@@ -57,10 +58,10 @@ ic = """
 if TEST:
     ic += """
     :ml_nu: = :nu:   * 0.0"""
-pysim.setIC(ic)
+pysim.setIC(ic) #Set initial conditions
 
 """Integrate in time"""
-dt_max = .001
+dt_max = .001 #Max dt
 if RESOLVED:
     dt_max = 0.00001 #Smaller timestep needed to avoid runtime errors
 time = 0.0
@@ -71,30 +72,30 @@ if TEST: #Load NN model if testing
     model = tf.keras.models.load_model('%s/my_model'%Model)
 
 maxSamples = (400 * (pysim.nx - 2*N)) * 5 #Arbitrary size large enough to collect data samples
-ML_data = np.zeros((2*N+2,maxSamples))
+ML_data = np.zeros((2*N+2,maxSamples)) #Data used to collect for training
 ml_cnt = 0
 dt = dt_max
 
 while time < 0.3:
     if RESOLVED:
-        time = pysim.rk4(time,dt)
+        time = pysim.rk4(time,dt) #RK4 calculation
     else:
         phi = None
         for rkstep in range(5):
-            phi = pysim.rk4_step(dt,rkstep,phi)
+            phi = pysim.rk4_step(dt,rkstep,phi) #Partial step of RK4
             if TRAIN:
                 for i in range(N,pysim.nx-N):
-                    ML_data[0,ml_cnt] = pysim.var("nu").data[i,0,0]
-                    vals = [r for r in  range(i-N,i+N+1)]
+                    ML_data[0,ml_cnt] = pysim.var("nu").data[i,0,0] #Save nu values
+                    vals = [r for r in  range(i-N,i+N+1)] #get N points before and after
                     for j in range(1,2*N+1+1):
                         exec("ML_data[%i,ml_cnt] = pysim.var('u').data[%i,0,0]"%(j,vals[j-1])) # Gather data for 2N+1 'u' points
                     ml_cnt += 1
             if TEST:
-                ml_nu = pysim.var('ml_nu').data
+                ml_nu = pysim.var('ml_nu').data #Get ml variable data
                 data = np.zeros( ( (pysim.nx-(2 * N)),2*N+1) )
                 for i in range(N,pysim.nx-N):
-                    ML_data[0,ml_cnt] = pysim.var("nu").data[i,0,0]
-                    vals = [r for r in  range(i-N,i+N+1)]
+                    ML_data[0,ml_cnt] = pysim.var("nu").data[i,0,0] #Save nu values
+                    vals = [r for r in  range(i-N,i+N+1)] #get N points before and after
                     for j in range(1,(2*N+1)+1):
                         exec("ML_data[%i,ml_cnt] = pysim.var('u').data[%i,0,0]"%(j,vals[j-1])) # Gather data for 2N+1 'u' points
                     data[i-N,:] = ML_data[1:,ml_cnt]
@@ -102,22 +103,22 @@ while time < 0.3:
                 ml_nu[N:-N,0,0] = model.predict( data )[:,0]
                 #Adjust min(ml_nu) to 0 to approximate correct bulk viscosity away from shock
                 ml_nu[N:-N,0,0] = ml_nu[N:-N,0,0] - np.min(ml_nu[N:-N,0,0])
-                pysim.var('ml_nu').data = ml_nu
-                pysim.parse(":nu:  =  :ml_nu:")
-        pysim.cycle += 1
+                pysim.var('ml_nu').data = ml_nu #Save variable data to simulation
+                pysim.parse(":nu:  =  :ml_nu:") #Plug ml_nu values back into simulation
+        pysim.cycle += 1 #Increment cycle
         time += dt
         dt = min(dt_max,0.3-time)
 
-u_data = pysim.var('u').data
+u_data = pysim.var('u').data #Get velocity data
 u_data = u_data.flatten()
 if TEST:
-    nu_data = pysim.var('ml_nu').data
+    nu_data = pysim.var('ml_nu').data #Get NN-AV variable data
     nu_data = nu_data.flatten()
 else:
-    nu_data = pysim.var('nu').data
+    nu_data = pysim.var('nu').data #Get OP-AV variable data
     nu_data = nu_data.flatten()
 
-if not os.path.exists('Data'):
+if not os.path.exists('Data'): #Make data directory if not there
     os.makedirs('Data')
 
 if TRAIN:

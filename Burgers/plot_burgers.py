@@ -10,18 +10,15 @@ parser.add_argument('-w','--write', help='Write norms to file',action='store_tru
 parser.add_argument('-s','--save', help='Save plots',action='store_true')
 args = parser.parse_args()
 
-N = args.N
-WRITE = args.write
-SAVE = args.save
+N = args.N #2N+1 points used in training and evaluation
+WRITE = args.write #Write results to file
+SAVE = args.save #Save plots
 
 HighRes = np.load('Data/burgers_res_velocity.npy') #Already interpolated, 200 Points
 ml_data = np.load('Data/burgers_active_velocity_N%i.npy'%N) #NN model data
 base_data = np.load('Data/burgers_base_velocity.npy') #Base model data
 
-NumVals = len(HighRes)
-
-dom = np.linspace(0,1,200)
-#plt.xlim([0.5,0.9])
+dom = np.linspace(0,1,200) #Domain to plot
 plt.plot(dom,HighRes,linewidth=3,label="Resolved Solution")
 plt.plot(dom,ml_data,'--',linewidth=2,label="NN-AV")
 plt.plot(dom,base_data,'--',linewidth=2,label="AV Operator")
@@ -30,7 +27,7 @@ plt.title(r"Burgers' Equation at $t=0.3$")
 plt.xlabel(r"$x$")
 plt.ylabel("Velocity")
 
-if not os.path.exists('Results'):
+if not os.path.exists('Results'): #Create directory if needed
     os.makedirs('Results')
 
 if SAVE:
@@ -44,7 +41,7 @@ L1 = []
 L2 = []
 L_inf = []
 
-HighSum = np.sum(HighRes)
+HighSum = np.sum(HighRes) #sum of all values
 
 dom = [1,2]
 ticks = ["AV","NN-AV"]
